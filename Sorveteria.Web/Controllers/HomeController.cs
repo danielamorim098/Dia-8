@@ -1,60 +1,42 @@
-﻿using Sorveteria.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.Security.AccessControl;
 using System.Web.Mvc;
+using Sorveteria.Dao;
+using Sorveteria.Model;
 
 namespace Sorveteria.Web.Controllers
 {
     public class HomeController : Controller
     {
+        public SorveteDao Sorvete => new SorveteDao(); 
         public ActionResult Index()
         {
-            var listaSorvete = new List<Sorvete>()
-            {
-                new Sorvete
-                {
-                    Sabor = "Morango",
-                    Descricao = "Muito Bom",
-                    Foto = "http://www.receitasdemae.com.br/wp-content/uploads/2013/01/sorvete-de-morango.jpg"
-                    },
-
-
-                 new Sorvete
-                {
-                    Sabor = "Chocolate",
-                    Descricao = "Muito Bom",
-                    Foto = "http://s.glbimg.com/po/rc/media/2013/01/03/09_27_31_109_sorvete.jpg"
-                 },
-
-
-                  new Sorvete
-                {
-                    Sabor = "Creme",
-                    Descricao = "Muito Bom",
-                    Foto = "http://www.sorvetecaseiro.com.br/wp-content/uploads/2013/04/sorvete-caseiro-de-creme.jpg"
-
-            }
-            };
-
-
+            var listaSorvete = Sorvete.GetAll().Content;
+            
+              
 
             return View(listaSorvete);
         }
-
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult Fornecedor()
         {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
+
+            return View(new SOR_T_FORNECEDOR());
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+        [HttpPost]
+        public ActionResult Fornecedor(SOR_T_FORNECEDOR fornecedor)
+        {   
+           var x = new FornecedorDao().Add(fornecedor, true);
+            if (x.IsError)
+            {
+                ModelState.AddModelError("ERRO", x.Message);
+                return View(fornecedor);
+            }
+            return View(new SOR_T_FORNECEDOR());
         }
+
+      
     }
 }

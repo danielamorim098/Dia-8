@@ -1,4 +1,4 @@
-﻿@model List<Sorveteria.Web.Models.Sorvete>
+﻿@model List<Sorveteria.Model.SOR_T_SORVETE>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -11,11 +11,14 @@
             <div class="col-sm-4">
                 <div class="thumbnail">
                     <a>
-                        <img src="@item.Foto" style="width:100%" />
+                        <img src="@item.URLFOTO" style="width:100%" />
 
                         <div class="caption">
-                            <h3>@item.Sabor</h3>
-                            <p>@item.Descricao</p>
+                            <h3>@item.NOME</h3>
+                            <p>@item.DESCRICAO</p>
+                            <p>@item.PRECO</p>
+                          
+
 
                         </div>
                     </a>

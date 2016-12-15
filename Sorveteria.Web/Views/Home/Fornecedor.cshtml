@@ -1,0 +1,101 @@
+﻿@model Sorveteria.Model.SOR_T_FORNECEDOR
+
+<h1>Cadastro do Fornecedor</h1>
+
+<form action="@Url.Action("Fornecedor")" method="POST" class="form-horizontal">
+    <div class="form-group">
+        <label for="inputName3" class="col-sm-2 control-label">Nome do Fornecedor</label>
+        <div class="col-sm-2">
+            <input type="text" name="fornecedor.NOME"  value="@Model.NOME" class="form-control" id="inputName3" maxlength="100" required placeholder="Nome" required>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="inputEmail1" class="col-sm-2 control-label">CNPJ</label>
+        <div class="col-sm-2">
+            <input type="text"  name="fornecedor.CNPJ"  value="@Model.CNPJ"  class="form-control" id="CNPJ" placeholder="00.000.000/0000-00" required>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Endereço</label>
+        <div class="col-sm-2">
+            <input type="text" name="fornecedor.ENDERECO" value="@Model.ENDERECO" class="form-control" required>
+        </div>
+    
+
+
+
+  
+        <button id="btnEndereco" class="btn btn-default" type="button">Meu Endereço</button>
+    </div>
+
+
+
+
+    
+
+
+    <div class="form-group">
+        <label for="inputEmail1" class="col-sm-2 control-label">Telefone</label>
+        <div class="col-sm-2">
+            <input type="text" name="fornecedor.TELEFONE"  value="@Model.TELEFONE"  class="form-control" id="Telefone" placeholder="(00) 0000-0000" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" type="submit">Cadastrar</button>
+        </div>
+    </div>
+    @if (ViewData.ModelState["ERRO"]?.Errors != null)
+    {
+        <div class="alert alert-danger">
+            <strong>@(ViewData.ModelState["ERRO"]?.Errors[0].ErrorMessage)</strong>
+        </div>
+    }
+
+
+</form>
+
+
+<script>
+    $(document).ready(function () {
+    $("#btnEndereco").click(function () {
+        $.ajax({
+            url: "http://cep.republicavirtual.com.br/web_cep.php?cep= " + $("#txtCep").val() + "&formato=jsonp",
+            type: "GET",
+            dataType: "json",
+            success: function (json) {
+                $("#txtLogradouro").val(json.logradouro);
+                $("#txtTipoLogradouro").val(json.tipo_logradouro);
+                $("#txtBairro").val(json.bairro);
+                $("#txtCidade").val(json.cidade);
+                $("#txtUf").val(json.uf);
+
+            }
+
+        });
+
+
+
+
+    });
+});
+</script>
+
+
+
+
+<script>
+    $(document).ready(function()
+    {
+        $('#CNPJ').mask('0.000.000/0000-00')
+    });
+    $(document).ready(function()
+    {
+        $('#Telefone').mask('(00) 0000-0000')
+    });
+
+</script>
